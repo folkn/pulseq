@@ -1,12 +1,19 @@
 #!/usr/bin/env python3
 """
-test_plot_waveform.py  –  Visualise the output of rf_waveform_parser.py
+test_plot_waveform.py  –  Test and visualise rf_waveform_parser output
 
-Run from inside rf_parser/:
-    python test_plot_waveform.py
-    python test_plot_waveform.py path/to/your.seq -n 2048 -b 16
+Produces one PNG figure per .seq file tested:
+  • One column of panels per RF pulse in the TR
+  • Row 0: normalised magnitude waveform
+  • Row 1: two's-complement DAC codes
+  • Row 2: phase (rad)
+  • Row 3 (shared): TR timeline showing all pulses and gaps
 
-Default: uses ../tests/expected_output/write_gre.seq  (bundled GRE test file).
+Run from rf_parser/:
+    python test_plot_waveform.py                          # GRE only (default)
+    python test_plot_waveform.py --all                    # GRE + TSE
+    python test_plot_waveform.py sequences/write_tse.seq  # explicit file
+    python test_plot_waveform.py --all -n 2048 -b 12     # custom config
 """
 
 import argparse
@@ -15,210 +22,230 @@ from pathlib import Path
 
 import numpy as np
 import matplotlib
-matplotlib.use('Agg')          # headless-safe; switch to 'TkAgg' / 'Qt5Agg'
-                               # if you want an interactive window
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 import matplotlib.patches as mpatches
 
-# Import the parser from the same directory
 sys.path.insert(0, str(Path(__file__).parent))
-from rf_waveform_parser import parse_rf_waveform, parse_seq_file, extract_rf_pulse
+from lib import PulseqParser, WaveformExtractor, TRWaveform
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Helpers
+# Palette (cycles for many pulses)
+# ─────────────────────────────────────────────────────────────────────────────
+_USE_COLORS = {
+    'e': '#1565C0',   # excitation – blue
+    'r': '#C62828',   # refocusing – red
+    'i': '#6A1B9A',   # inversion  – purple
+    's': '#E65100',   # saturation – orange
+    'u': '#37474F',   # undefined  – grey
+}
+_GAP_COLORS = {
+    'before': '#FFA726',   # amber
+    'after':  '#66BB6A',   # green
+    'inter':  '#EF9A9A',   # light red
+}
+
+
+def _pulse_color(use: str) -> str:
+    return _USE_COLORS.get(use, '#37474F')
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Per-pulse three-panel figure (magnitude, twos-comp, phase)
 # ─────────────────────────────────────────────────────────────────────────────
 
-def _default_seq() -> Path:
-    """Return the bundled GRE .seq file (copied alongside this script,
-    or fall back to the repo's tests/expected_output directory)."""
-    here = Path(__file__).parent
-    local = here / 'write_gre.seq'
-    if local.exists():
-        return local
-    repo_copy = here.parent / 'tests' / 'expected_output' / 'write_gre.seq'
-    if repo_copy.exists():
-        return repo_copy
-    raise FileNotFoundError(
-        "Could not find write_gre.seq. "
-        "Pass an explicit path as the first argument."
+def _plot_pulse_panels(axes, pulse, title_prefix: str = '') -> None:
+    """Fill three axes (mag, codes, phase) for one RFWaveform."""
+    t_ms = np.arange(pulse.n_points) * pulse.sampling_time_s * 1e3
+
+    ax_mag, ax_code, ax_ph = axes
+    col = _pulse_color(pulse.use)
+
+    # Magnitude
+    ax_mag.plot(t_ms, pulse.waveform_normalized, color=col, lw=1.1)
+    ax_mag.set_ylim(-0.05, 1.15)
+    ax_mag.set_ylabel('Norm. amp.')
+    ax_mag.set_title(
+        f"{title_prefix}Pulse {pulse.pulse_index}  "
+        f"use='{pulse.use}'  {pulse.rf_amplitude_hz:.4g} Hz  "
+        f"{pulse.rf_duration_s * 1e3:.2f} ms",
+        fontsize=9,
     )
+    ax_mag.axhline(0, color='k', lw=0.4)
+    ax_mag.grid(alpha=0.25)
+
+    # Two's complement
+    max_v = pulse.max_twos_complement
+    ax_code.plot(t_ms, pulse.waveform_twos_complement, color=col, lw=1.1)
+    ax_code.axhline(max_v, color='#B71C1C', ls='--', lw=0.7,
+                    label=f'max={max_v}')
+    ax_code.set_ylabel(f'{pulse.n_bits}-bit code')
+    ax_code.set_ylim(-max_v * 0.05, max_v * 1.15)
+    ax_code.legend(fontsize=7, loc='upper right')
+    ax_code.grid(alpha=0.25)
+
+    # Phase
+    ax_ph.step(t_ms, pulse.phase_rad, where='mid', color=col, lw=1.1)
+    ax_ph.set_xlabel('Time in pulse (ms)')
+    ax_ph.set_ylabel('Phase (rad)')
+    ax_ph.grid(alpha=0.25)
+    # π-tick labels
+    pmin = np.floor(pulse.phase_rad.min() / (np.pi / 2)) * (np.pi / 2)
+    pmax = np.ceil(pulse.phase_rad.max()  / (np.pi / 2)) * (np.pi / 2)
+    ticks = np.arange(pmin, pmax + 0.01, np.pi / 2)
+    if len(ticks) <= 8:
+        def _label(v):
+            n = int(round(v / (np.pi / 2)))
+            if n == 0:  return '0'
+            if n == 2:  return 'π'
+            if n == -2: return '-π'
+            return f'{n}π/2' if n % 2 else f'{n//2}π'
+        ax_ph.set_yticks(ticks)
+        ax_ph.set_yticklabels([_label(v) for v in ticks])
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Main plot
+# TR timeline panel
 # ─────────────────────────────────────────────────────────────────────────────
 
-def plot_waveform(result: dict, seq_file: str, outfile: str = 'rf_waveform.png') -> None:
+def _plot_timeline(ax, tr: TRWaveform) -> None:
+    tr_ms = tr.tr_duration_s * 1e3
+    ax.set_xlim(0, tr_ms)
+    ax.set_ylim(0, 1)
+    ax.set_xlabel('Time in TR (ms)')
+    ax.set_title('TR Timeline', fontsize=9)
+    ax.set_yticks([])
+    ax.grid(axis='x', alpha=0.2)
+
+    patches = []
+    for i, p in enumerate(tr.rf_pulses):
+        s_ms = p.rf_start_in_tr_s * 1e3
+        e_ms = p.rf_end_in_tr_s   * 1e3
+        col  = _pulse_color(p.use)
+        ax.axvspan(s_ms, e_ms, alpha=0.55, color=col)
+        xm = (s_ms + e_ms) / 2
+        label = f"P{i}\n{p.use}\n{(e_ms-s_ms):.1f}ms"
+        ax.text(xm, 0.5, label, ha='center', va='center',
+                fontsize=6.5, color='white', fontweight='bold',
+                clip_on=True)
+        patches.append(mpatches.Patch(
+            color=col, alpha=0.7,
+            label=f'P{i} ({p.use})  {p.rf_duration_s*1e3:.2f}ms  '
+                  f'@ {p.rf_start_in_tr_s*1e3:.2f}ms',
+        ))
+
+    # Shade initial delay and tail delay
+    init_ms = tr.initial_delay_s * 1e3
+    tail_start_ms = tr.rf_pulses[-1].rf_end_in_tr_s * 1e3 if tr.rf_pulses else 0
+    if init_ms > 0:
+        ax.axvspan(0, init_ms, alpha=0.20, color=_GAP_COLORS['before'],
+                   label=f'init delay {init_ms:.3f}ms')
+    if tail_start_ms < tr_ms:
+        ax.axvspan(tail_start_ms, tr_ms, alpha=0.20, color=_GAP_COLORS['after'],
+                   label=f'tail delay {tr.tail_delay_s*1e3:.3f}ms')
+
+    ax.legend(handles=patches, loc='upper right', fontsize=7,
+              framealpha=0.8, ncol=min(4, len(patches)))
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Main figure builder
+# ─────────────────────────────────────────────────────────────────────────────
+
+def plot_tr(tr: TRWaveform, seq_file: str, outfile: str = 'rf_waveform.png') -> str:
     """
-    Produce a four-panel figure:
-      1. Magnitude (Hz) – resampled waveform
-      2. Two's-complement integers  (n_bits DAC codes)
-      3. Phase (radians)
-      4. TR timeline (initial delay, RF pulse, tail delay)
+    Build and save a figure for the given TRWaveform.
 
-    Also overlays the original-rate waveform (grey) on panel 1 for comparison.
+    Layout:
+        Rows 0-2: per-pulse panels (mag, codes, phase)  ← one column each pulse
+        Row  3  : shared TR timeline
+    Returns the saved file path.
     """
-    n_pts   = result['n_points']
-    n_bits  = result['n_bits']
-    max_val = result['max_twos_complement']
-    dt_s    = result['sampling_time_s']
-    t_rf    = np.arange(n_pts) * dt_s * 1e3         # ms
+    n_pulses = tr.n_rf_pulses
+    if n_pulses == 0:
+        print('  No RF pulses – nothing to plot.')
+        return ''
 
-    mag_norm  = np.array(result['waveform_normalized'])
-    mag_hz    = np.array(result['waveform_raw'])
-    twos      = np.array(result['waveform_twos_complement'])
-    phase     = np.array(result['phase_rad'])
+    n_rows = 4          # mag / codes / phase / timeline
+    n_cols = n_pulses
 
-    rf_dur_ms  = result['rf_duration_s']    * 1e3
-    init_ms    = result['initial_delay_s']  * 1e3
-    tail_ms    = result['tail_delay_s']     * 1e3
-    tr_ms      = result['tr_duration_s']    * 1e3
-    amp_hz     = result['rf_amplitude_hz']
+    col_width  = max(3.5, min(6.0, 20 / n_cols))
+    fig_width  = col_width * n_cols
+    fig_height = 10 + (1 if n_pulses > 3 else 0)
 
-    fig = plt.figure(figsize=(13, 12), constrained_layout=True)
+    fig = plt.figure(figsize=(fig_width, fig_height), constrained_layout=True)
     fig.suptitle(
-        f"RF Waveform  ·  {Path(seq_file).name}  ·  "
-        f"{n_pts} pts  ·  {n_bits}-bit two's complement",
-        fontsize=13, fontweight='bold',
+        f'{Path(seq_file).name}  ·  TR {tr.tr_index}  '
+        f'({tr.tr_duration_s*1e3:.1f} ms)  ·  '
+        f'{tr.n_rf_pulses} RF pulse(s)  ·  '
+        f'{tr.n_points} pts / {tr.n_bits}-bit',
+        fontsize=11, fontweight='bold',
     )
 
-    gs = gridspec.GridSpec(4, 1, figure=fig, hspace=0.55)
+    # Grid: top 3 rows = per-pulse panels, bottom row spans all columns
+    gs = gridspec.GridSpec(
+        n_rows, n_cols, figure=fig,
+        height_ratios=[2.0, 1.8, 1.8, 1.4],
+    )
 
-    # ── Panel 1 : Magnitude in Hz ─────────────────────────────────────────────
-    ax1 = fig.add_subplot(gs[0])
-    ax1.plot(t_rf, mag_hz, color='steelblue', lw=1.2, label='Resampled')
-    ax1.set_xlim(0, rf_dur_ms)
-    ax1.set_xlabel('Time within RF pulse (ms)')
-    ax1.set_ylabel('Amplitude (Hz)')
-    ax1.set_title(f'RF Magnitude  (peak = {amp_hz:.4g} Hz)')
-    ax1.legend(loc='upper right', fontsize=8)
-    ax1.grid(alpha=0.3)
-    ax1.axhline(0, color='k', lw=0.5)
+    for col, pulse in enumerate(tr.rf_pulses):
+        axes = [fig.add_subplot(gs[row, col]) for row in range(3)]
+        _plot_pulse_panels(axes, pulse)
+        # Only label y-axis on left column to save space
+        if col > 0:
+            for ax in axes:
+                ax.set_ylabel('')
 
-    # ── Panel 2 : Two's complement ────────────────────────────────────────────
-    ax2 = fig.add_subplot(gs[1], sharex=ax1)
-    ax2.plot(t_rf, twos, color='darkorange', lw=1.2)
-    ax2.axhline(max_val, color='red', ls='--', lw=0.8, label=f'Max = {max_val}')
-    ax2.set_xlim(0, rf_dur_ms)
-    ax2.set_xlabel('Time within RF pulse (ms)')
-    ax2.set_ylabel(f'{n_bits}-bit integer')
-    ax2.set_title(f"{n_bits}-bit Two's-Complement DAC Codes  (max = {max_val})")
-    ax2.legend(loc='upper right', fontsize=8)
-    ax2.grid(alpha=0.3)
-    ax2.set_ylim(-max_val * 0.05, max_val * 1.1)
-
-    # ── Panel 3 : Phase ───────────────────────────────────────────────────────
-    ax3 = fig.add_subplot(gs[2], sharex=ax1)
-    ax3.step(t_rf, phase, color='seagreen', lw=1.2, where='mid')
-    ax3.set_xlim(0, rf_dur_ms)
-    ax3.set_xlabel('Time within RF pulse (ms)')
-    ax3.set_ylabel('Phase (rad)')
-    ax3.set_title('Phase Waveform')
-    # Custom y-ticks at multiples of π/2
-    pi_ticks = np.arange(
-        np.floor(phase.min() / (np.pi / 2)),
-        np.ceil(phase.max()  / (np.pi / 2)) + 1,
-    ) * (np.pi / 2)
-    pi_labels = []
-    for v in pi_ticks:
-        n = int(round(v / (np.pi / 2)))
-        if n == 0:
-            pi_labels.append('0')
-        elif n == 2:
-            pi_labels.append('π')
-        elif n == -2:
-            pi_labels.append('-π')
-        elif n % 2 == 0:
-            pi_labels.append(f'{n//2}π')
-        else:
-            pi_labels.append(f'{n}π/2')
-    ax3.set_yticks(pi_ticks)
-    ax3.set_yticklabels(pi_labels)
-    ax3.grid(alpha=0.3)
-
-    # ── Panel 4 : TR timeline ─────────────────────────────────────────────────
-    ax4 = fig.add_subplot(gs[3])
-    ax4.set_xlim(0, tr_ms)
-    ax4.set_ylim(0, 1)
-    ax4.set_xlabel('Time in TR (ms)')
-    ax4.set_title('TR Timeline')
-    ax4.set_yticks([])
-
-    col_init = '#FFC107'   # amber  – initial delay
-    col_rf   = '#1565C0'   # blue   – RF pulse
-    col_tail = '#43A047'   # green  – tail delay
-
-    # Regions as filled rectangles
-    ax4.axvspan(0,                  init_ms,              alpha=0.35, color=col_init)
-    ax4.axvspan(init_ms,            init_ms + rf_dur_ms,  alpha=0.45, color=col_rf)
-    ax4.axvspan(init_ms + rf_dur_ms, tr_ms,               alpha=0.35, color=col_tail)
-
-    # Brace-style labels
-    def mid_label(ax, x0, x1, text, color):
-        xm = (x0 + x1) / 2
-        ax.text(xm, 0.5, text, ha='center', va='center', fontsize=9,
-                color='white', fontweight='bold',
-                bbox=dict(boxstyle='round,pad=0.2', fc=color, alpha=0.8, lw=0))
-
-    mid_label(ax4, 0,                  init_ms,              f'Initial delay\n{init_ms:.3f} ms', col_init)
-    mid_label(ax4, init_ms,            init_ms + rf_dur_ms,  f'RF pulse\n{rf_dur_ms:.3f} ms',   col_rf)
-    mid_label(ax4, init_ms + rf_dur_ms, tr_ms,               f'Tail delay\n{tail_ms:.3f} ms',   col_tail)
-
-    legend_patches = [
-        mpatches.Patch(color=col_init, alpha=0.6, label=f'Initial delay  {init_ms:.4g} ms'),
-        mpatches.Patch(color=col_rf,   alpha=0.7, label=f'RF pulse       {rf_dur_ms:.4g} ms'),
-        mpatches.Patch(color=col_tail, alpha=0.6, label=f'Tail delay     {tail_ms:.4g} ms'),
-    ]
-    ax4.legend(handles=legend_patches, loc='lower right', fontsize=8)
+    ax_tl = fig.add_subplot(gs[3, :])
+    _plot_timeline(ax_tl, tr)
 
     fig.savefig(outfile, dpi=150, bbox_inches='tight')
-    print(f"Figure saved → {outfile}")
-    return fig
+    print(f'  Figure saved → {outfile}')
+    return outfile
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Parameter printout
+# Summary printout
 # ─────────────────────────────────────────────────────────────────────────────
 
-def print_summary(result: dict) -> None:
+def print_summary(tr: TRWaveform) -> None:
+    sep = '=' * 62
+    print(sep)
+    print(f'  TR {tr.tr_index}  |  Pulseq v{tr.seq_version}  '
+          f'|  {tr.n_rf_pulses} RF pulse(s)')
+    print(sep)
+    print(f'  TR duration   : {tr.tr_duration_s * 1e3:.3f} ms')
+    print(f'  Initial delay : {tr.initial_delay_s * 1e6:.1f} µs '
+          f'({tr.initial_delay_s * 1e3:.4f} ms)')
+    print(f'  Tail delay    : {tr.tail_delay_s * 1e3:.4f} ms')
     print()
-    print("=" * 60)
-    print("  RF Waveform Parser – Full Parameter Summary")
-    print("=" * 60)
-
-    groups = [
-        ("Sequence",   ['seq_version', 'n_samples_original', 'rf_raster_time_s']),
-        ("Resampled output", ['n_points', 'n_bits', 'max_twos_complement', 'sampling_time_s']),
-        ("RF pulse",   ['rf_amplitude_hz', 'rf_duration_s']),
-        ("Timing",     ['initial_delay_s', 'tail_delay_s', 'tr_duration_s']),
-    ]
-
-    for title, keys in groups:
-        print(f"\n  {title}")
-        print("  " + "─" * 50)
-        for k in keys:
-            v = result[k]
-            if isinstance(v, float):
-                if abs(v) < 0.01 or abs(v) >= 1e4:
-                    print(f"    {k:<30s}  {v:.6e}")
-                else:
-                    print(f"    {k:<30s}  {v:.6f}")
-            else:
-                print(f"    {k:<30s}  {v}")
-
-    print()
-    print("  Waveform arrays (first 6 / last 6 values)")
-    print("  " + "─" * 50)
-    for arr_key in ['waveform_normalized', 'waveform_twos_complement', 'phase_rad']:
-        arr = result[arr_key]
-        head = ', '.join(f'{v:.4g}' for v in arr[:6])
-        tail = ', '.join(f'{v:.4g}' for v in arr[-6:])
-        print(f"    {arr_key}:")
-        print(f"      first 6: [{head}]")
-        print(f"      last  6: [{tail}]")
-    print("=" * 60)
+    for p in tr.rf_pulses:
+        print(f'  ── Pulse {p.pulse_index} ──────────────────────────────────────')
+        print(f'    use          : {p.use!r}')
+        print(f'    duration     : {p.rf_duration_s * 1e3:.3f} ms')
+        print(f'    amplitude    : {p.rf_amplitude_hz:.6g} Hz')
+        print(f'    start in TR  : {p.rf_start_in_tr_s * 1e3:.4f} ms')
+        print(f'    end in TR    : {p.rf_end_in_tr_s * 1e3:.4f} ms')
+        print(f'    gap before   : {p.gap_before_s * 1e3:.4f} ms')
+        print(f'    gap after    : {p.gap_after_s * 1e3:.4f} ms')
+        print(f'    native pts   : {p.n_samples_original}')
+        print(f'    sampling dt  : {p.sampling_time_s * 1e9:.2f} ns')
+        print(f'    max DAC code : {p.max_twos_complement}')
+        # Show first/last few waveform values
+        wn = p.waveform_normalized
+        wt = p.waveform_twos_complement
+        ph = p.phase_rad
+        head = ', '.join(f'{v:.4g}' for v in wn[:4])
+        tail = ', '.join(f'{v:.4g}' for v in wn[-4:])
+        print(f'    norm (first4): [{head}]')
+        print(f'    norm (last4) : [{tail}]')
+        head_t = ', '.join(str(v) for v in wt[:4])
+        print(f'    codes(first4): [{head_t}]')
+        head_ph = ', '.join(f'{v:.4g}' for v in ph[:4])
+        print(f'    phase(first4): [{head_ph}] rad')
+    print(sep)
     print()
 
 
@@ -226,44 +253,76 @@ def print_summary(result: dict) -> None:
 # CLI
 # ─────────────────────────────────────────────────────────────────────────────
 
+def _default_seq_files() -> list:
+    here = Path(__file__).parent
+    candidates = [
+        here / 'sequences' / 'write_gre.seq',
+        here / 'sequences' / 'write_tse.seq',
+        here.parent / 'tests' / 'expected_output' / 'write_gre.seq',
+    ]
+    return [str(p) for p in candidates if p.exists()]
+
+
 def _build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
-        description='Test and plot output of rf_waveform_parser.py',
+        description='Test and visualise rf_waveform_parser output',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     p.add_argument(
-        'seq_file', nargs='?',
-        help='Path to .seq file (default: bundled write_gre.seq)',
+        'seq_files', nargs='*',
+        help='Path(s) to .seq file(s). Default: sequences/write_gre.seq',
     )
+    p.add_argument('--all', action='store_true',
+                   help='Test all .seq files in sequences/')
     p.add_argument('-n', '--points', type=int, default=4096, metavar='N',
-                   help='Number of output samples')
-    p.add_argument('-b', '--bits', type=int, default=14, metavar='B',
+                   help='Samples per RF pulse')
+    p.add_argument('-b', '--bits',   type=int, default=14,   metavar='B',
                    help='DAC bit depth')
-    p.add_argument('--rf-index', type=int, default=0, metavar='I',
-                   help='Index of RF pulse to extract (0 = first)')
-    p.add_argument('-o', '--outfile', default='rf_waveform.png',
-                   help='Output image filename')
+    p.add_argument('-t', '--tr',     type=int, default=0,    metavar='I',
+                   dest='tr_index', help='TR index to extract')
     p.add_argument('--show', action='store_true',
-                   help='Display interactive plot window (requires a display)')
+                   help='Open interactive plot window (needs display)')
     return p
 
 
 def main() -> None:
     args = _build_parser().parse_args()
 
-    seq_file = args.seq_file or str(_default_seq())
-    print(f"Parsing: {seq_file}")
-    print(f"  points={args.points}  bits={args.bits}  rf_index={args.rf_index}")
+    seq_dir = Path(__file__).parent / 'sequences'
+    if args.all:
+        files = sorted(str(p) for p in seq_dir.glob('*.seq'))
+        if not files:
+            print('No .seq files found in sequences/  – copy some there first.')
+            sys.exit(1)
+    elif args.seq_files:
+        files = args.seq_files
+    else:
+        gre = seq_dir / 'write_gre.seq'
+        fallback = Path(__file__).parent.parent / 'tests' / 'expected_output' / 'write_gre.seq'
+        if gre.exists():
+            files = [str(gre)]
+        elif fallback.exists():
+            files = [str(fallback)]
+        else:
+            print('Cannot find a default .seq file.  Pass one as an argument.')
+            sys.exit(1)
 
-    result = parse_rf_waveform(
-        seq_file=seq_file,
-        n_points=args.points,
-        n_bits=args.bits,
-        rf_index=args.rf_index,
-    )
+    for seq_file in files:
+        print(f'\n{"=" * 62}')
+        print(f'  Parsing: {seq_file}')
+        print(f'  points={args.points}  bits={args.bits}  tr_index={args.tr_index}')
+        print(f'{"=" * 62}')
 
-    print_summary(result)
-    fig = plot_waveform(result, seq_file, outfile=args.outfile)
+        seq = PulseqParser(seq_file).parse()
+        print(f'  Sequence: v{seq.version_str}  TRs={seq.n_tr}')
+        extractor = WaveformExtractor(seq, n_points=args.points, n_bits=args.bits)
+        tr = extractor.extract_tr(args.tr_index)
+
+        print_summary(tr)
+
+        stem = Path(seq_file).stem
+        outfile = f'{stem}_tr{args.tr_index}.png'
+        plot_tr(tr, seq_file, outfile=outfile)
 
     if args.show:
         plt.show()
