@@ -108,23 +108,41 @@ def _print_summary(tr, file=sys.stderr) -> None:
     print(f'  TR index            : {tr.tr_index}', file=file)
     print(f'  TR duration         : {tr.tr_duration_s * 1e3:.3f} ms', file=file)
     print(f'  RF pulses in TR     : {tr.n_rf_pulses}', file=file)
+    print(f'  Unique waveforms    : {tr.n_unique_waveforms}', file=file)
     print(f'  Samples per pulse   : {tr.n_points}', file=file)
     print(f'  Bit depth           : {tr.n_bits}-bit  '
-          f'(max = {tr.rf_pulses[0].max_twos_complement if tr.rf_pulses else "N/A"})',
+          f'(max = {tr.waveforms[0].max_twos_complement if tr.waveforms else "N/A"})',
           file=file)
     print(f'  Initial delay       : {tr.initial_delay_s * 1e3:.4f} ms', file=file)
     print(f'  Tail delay          : {tr.tail_delay_s * 1e3:.4f} ms', file=file)
     print(sep, file=file)
-    for p in tr.rf_pulses:
+    for w in tr.waveforms:
         print(
-            f'  Pulse {p.pulse_index:2d}  use={p.use!r:3s}  '
-            f'dur={p.rf_duration_s * 1e3:.3f}ms  '
-            f'start={p.rf_start_in_tr_s * 1e3:.3f}ms  '
-            f'amp={p.rf_amplitude_hz:.4g}Hz  '
-            f'native={p.n_samples_original}pts',
+            f'  Waveform {w.waveform_id:2d}  use={w.use!r:3s}  '
+            f'dur={w.rf_duration_s * 1e3:.3f}ms  '
+            f'amp={w.rf_amplitude_hz:.4g}Hz  '
+            f'native={w.n_samples_original}pts',
             file=file,
         )
     print(sep, file=file)
+    # Compact timeline on wrapped lines
+    parts = []
+    for t in tr.timeline:
+        if t['type'] == 'gap':
+            parts.append(f"gap({t['duration_ms']:.3f}ms)")
+        else:
+            parts.append(f"{t['use']}[{t['waveform_id']}]({t['duration_ms']:.2f}ms)")
+    print('  Timeline:', file=file)
+    line = '    '
+    for i, part in enumerate(parts):
+        sep_str = ' → ' if i < len(parts) - 1 else ''
+        if len(line) + len(part) + len(sep_str) > 72 and line.strip():
+            print(line, file=file)
+            line = '    '
+        line += part + sep_str
+    if line.strip():
+        print(line, file=file)
+    print('─' * 58, file=file)
 
 
 def main(argv=None) -> None:

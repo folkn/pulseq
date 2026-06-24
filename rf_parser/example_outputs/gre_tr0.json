@@ -3,13 +3,14 @@
   "tr_index": 0,
   "tr_duration_s": 0.012,
   "n_rf_pulses": 1,
+  "n_unique_waveforms": 1,
   "n_points": 4096,
   "n_bits": 14,
-  "initial_delay_s": 9.999999999999999e-05,
+  "initial_delay_s": 0.0001,
   "tail_delay_s": 0.0089,
-  "rf_pulses": [
+  "waveforms": [
     {
-      "pulse_index": 0,
+      "waveform_id": 0,
       "use": "e",
       "n_points": 4096,
       "n_bits": 14,
@@ -16409,12 +16410,24 @@
       "sampling_time_s": 7.32421875e-07,
       "rf_duration_s": 0.003,
       "rf_amplitude_hz": 37.2185,
-      "rf_start_in_tr_s": 9.999999999999999e-05,
-      "rf_end_in_tr_s": 0.0031,
-      "gap_before_s": 9.999999999999999e-05,
-      "gap_after_s": 0.0089,
       "rf_raster_time_s": 1e-06,
       "n_samples_original": 3000
+    }
+  ],
+  "timeline": [
+    {
+      "type": "gap",
+      "duration_ms": 0.1
+    },
+    {
+      "type": "pulse",
+      "waveform_id": 0,
+      "use": "e",
+      "duration_ms": 3.0
+    },
+    {
+      "type": "gap",
+      "duration_ms": 8.9
     }
   ]
 }
