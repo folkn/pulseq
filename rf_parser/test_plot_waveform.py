@@ -35,11 +35,13 @@ from lib import PulseqParser, WaveformExtractor, TRWaveform
 # Palette
 # ─────────────────────────────────────────────────────────────────────────────
 _USE_COLORS = {
-    'e': '#1565C0',   # excitation – blue
-    'r': '#C62828',   # refocusing – red
-    'i': '#6A1B9A',   # inversion  – purple
-    's': '#E65100',   # saturation – orange
-    'u': '#37474F',   # undefined  – grey
+    'excitation':  '#1565C0',   # blue
+    'refocusing':  '#C62828',   # red
+    'inversion':   '#6A1B9A',   # purple
+    'saturation':  '#E65100',   # orange
+    'preparation': '#2E7D32',   # green
+    'other':       '#00838F',   # teal
+    'undefined':   '#37474F',   # grey
 }
 _GAP_COLORS = {
     'before': '#FFA726',   # amber
@@ -47,8 +49,8 @@ _GAP_COLORS = {
 }
 
 
-def _pulse_color(use: str) -> str:
-    return _USE_COLORS.get(use, '#37474F')
+def _pulse_color(pulse_type: str) -> str:
+    return _USE_COLORS.get(pulse_type, '#37474F')
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -60,7 +62,7 @@ def _plot_waveform_panels(axes, wf, title_prefix: str = '') -> None:
     t_ms = np.arange(wf.n_points) * wf.sampling_time_s * 1e3
 
     ax_mag, ax_code, ax_ph = axes
-    col = _pulse_color(wf.use)
+    col = _pulse_color(wf.pulse_type)
 
     # Magnitude
     ax_mag.plot(t_ms, wf.waveform_normalized, color=col, lw=1.1)
@@ -68,7 +70,7 @@ def _plot_waveform_panels(axes, wf, title_prefix: str = '') -> None:
     ax_mag.set_ylabel('Norm. amp.')
     ax_mag.set_title(
         f"{title_prefix}Waveform {wf.waveform_id}  "
-        f"use='{wf.use}'  {wf.rf_amplitude_hz:.4g} Hz  "
+        f"({wf.pulse_type})  {wf.rf_amplitude_hz:.4g} Hz  "
         f"{wf.rf_duration_s * 1e3:.2f} ms",
         fontsize=9,
     )
@@ -127,18 +129,18 @@ def _plot_timeline(ax, tr: TRWaveform) -> None:
         else:
             dur = entry['duration_ms']
             wid = entry['waveform_id']
-            col = _pulse_color(entry['use'])
+            col = _pulse_color(entry['pulse_type'])
             ax.axvspan(t_ms, t_ms + dur, alpha=0.55, color=col)
             xm = t_ms + dur / 2
             ax.text(xm, 0.5,
-                    f"W{wid}\n{entry['use']}\n{dur:.1f}ms",
+                    f"W{wid}\n{entry['pulse_type'][:3]}\n{dur:.1f}ms",
                     ha='center', va='center',
                     fontsize=6.5, color='white', fontweight='bold',
                     clip_on=True)
             if wid not in legend_seen:
                 patches.append(mpatches.Patch(
                     color=col, alpha=0.7,
-                    label=f"W{wid} ({entry['use']})  {dur:.2f}ms",
+                    label=f"W{wid} ({entry['pulse_type']})  {dur:.2f}ms",
                 ))
                 legend_seen.add(wid)
             t_ms += dur
@@ -225,7 +227,7 @@ def print_summary(tr: TRWaveform) -> None:
     print()
     for wf in tr.waveforms:
         print(f'  ── Waveform {wf.waveform_id} ────────────────────────────────────────')
-        print(f'    use          : {wf.use!r}')
+        print(f'    pulse_type   : {wf.pulse_type}')
         print(f'    duration     : {wf.rf_duration_s * 1e3:.3f} ms')
         print(f'    amplitude    : {wf.rf_amplitude_hz:.6g} Hz')
         print(f'    native pts   : {wf.n_samples_original}')
@@ -249,7 +251,7 @@ def print_summary(tr: TRWaveform) -> None:
         if t['type'] == 'gap':
             parts.append(f"gap({t['duration_ms']:.3f}ms)")
         else:
-            parts.append(f"{t['use']}[W{t['waveform_id']}]({t['duration_ms']:.2f}ms)")
+            parts.append(f"{t['pulse_type']}[W{t['waveform_id']}]({t['duration_ms']:.2f}ms)")
     line = '    '
     for i, part in enumerate(parts):
         sep_str = ' → ' if i < len(parts) - 1 else ''

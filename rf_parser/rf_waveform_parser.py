@@ -118,7 +118,7 @@ def _print_summary(tr, file=sys.stderr) -> None:
     print(sep, file=file)
     for w in tr.waveforms:
         print(
-            f'  Waveform {w.waveform_id:2d}  use={w.use!r:3s}  '
+            f'  Waveform {w.waveform_id:2d}  type={w.pulse_type:<12s}  '
             f'dur={w.rf_duration_s * 1e3:.3f}ms  '
             f'amp={w.rf_amplitude_hz:.4g}Hz  '
             f'native={w.n_samples_original}pts',
@@ -131,7 +131,7 @@ def _print_summary(tr, file=sys.stderr) -> None:
         if t['type'] == 'gap':
             parts.append(f"gap({t['duration_ms']:.3f}ms)")
         else:
-            parts.append(f"{t['use']}[{t['waveform_id']}]({t['duration_ms']:.2f}ms)")
+            parts.append(f"{t['pulse_type']}[{t['waveform_id']}]({t['duration_ms']:.2f}ms)")
     print('  Timeline:', file=file)
     line = '    '
     for i, part in enumerate(parts):

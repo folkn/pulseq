@@ -24,6 +24,23 @@ from .parser import SequenceData
 # Internal helpers
 # ─────────────────────────────────────────────────────────────────────────────
 
+# Expand Pulseq single-letter use codes to descriptive names
+_USE_EXPANDED: Dict[str, str] = {
+    'e': 'excitation',
+    'r': 'refocusing',
+    'i': 'inversion',
+    's': 'saturation',
+    'p': 'preparation',
+    'o': 'other',
+    'u': 'undefined',
+}
+
+
+def _expand_use(raw: str) -> str:
+    """Map Pulseq use code ('e', 'r', …) to a descriptive word."""
+    return _USE_EXPANDED.get(raw, raw)
+
+
 def _resample_linear(y: np.ndarray, t_src: np.ndarray,
                      t_dst: np.ndarray) -> np.ndarray:
     """Linear interpolation with edge clamping."""
@@ -66,7 +83,7 @@ class RFWaveform:
     Attributes
     ----------
     waveform_id          : index into TRWaveform.waveforms (0-based)
-    use                  : Pulseq use type  'e'=excitation, 'r'=refocusing, …
+    pulse_type           : RF role – 'excitation', 'refocusing', 'inversion', …
     n_points             : number of output samples
     n_bits               : DAC bit depth
     waveform_raw         : ndarray – amplitude in Hz at each sample
@@ -76,12 +93,12 @@ class RFWaveform:
     sampling_time_s      : duration of one output sample (s)
     rf_duration_s        : total duration of the RF pulse (s)
     rf_amplitude_hz      : peak RF amplitude (Hz)
-    rf_raster_time_s     : native RF sampling interval before resampling (s)
+    rf_raster_time_s     : native RF sampling interval (s); 0 if time-shaped
     n_samples_original   : native shape length before resampling
     """
 
     waveform_id:              int
-    use:                      str
+    pulse_type:               str
     n_points:                 int
     n_bits:                   int
     waveform_raw:             np.ndarray
@@ -101,7 +118,7 @@ class RFWaveform:
     def to_dict(self) -> dict:
         return {
             'waveform_id':              self.waveform_id,
-            'use':                      self.use,
+            'pulse_type':               self.pulse_type,
             'n_points':                 self.n_points,
             'n_bits':                   self.n_bits,
             'max_twos_complement':      self.max_twos_complement,
@@ -118,7 +135,7 @@ class RFWaveform:
 
     def __repr__(self) -> str:
         return (
-            f"RFWaveform(id={self.waveform_id}, use='{self.use}', "
+            f"RFWaveform(id={self.waveform_id}, type='{self.pulse_type}', "
             f"dur={self.rf_duration_s*1e3:.2f}ms, "
             f"amp={self.rf_amplitude_hz:.4g}Hz, "
             f"n_pts={self.n_points}, {self.n_bits}-bit)"
@@ -143,7 +160,7 @@ class TRWaveform:
     Timeline entry schemas
     ----------------------
     Gap   : {"type": "gap",   "duration_ms": <float>}
-    Pulse : {"type": "pulse", "waveform_id": <int>, "use": <str>,
+    Pulse : {"type": "pulse", "waveform_id": <int>, "pulse_type": <str>,
              "duration_ms": <float>}
 
     Attributes
@@ -278,25 +295,34 @@ class WaveformExtractor:
             phase  = self._seq.phase_shape_rad(ev['phase_id'], n_orig)
             phase  = phase + ev['phase']      # add constant offset (rad)
 
-            rf_duration = n_orig * rf_raster
-            rf_end      = rf_start + rf_duration
-            gap_before  = rf_start - prev_rf_end
-            use         = ev.get('use', 'u')
+            # ── Time grid: use time_shape if present, else uniform raster ──
+            time_shape_id = ev.get('time_shape_id', 0)
+            if time_shape_id > 0 and time_shape_id in self._seq.shape_library:
+                # time_shape stores actual sample times in rf_raster units
+                t_orig      = self._seq.shape_library[time_shape_id] * rf_raster
+                rf_duration = float(t_orig[-1])
+            else:
+                t_orig      = (np.arange(n_orig, dtype=np.float64) + 0.5) * rf_raster
+                rf_duration = n_orig * rf_raster
+
+            rf_end     = rf_start + rf_duration
+            gap_before = rf_start - prev_rf_end
+            pulse_type = _expand_use(ev.get('use', 'u'))
 
             # Deduplication key: everything that determines the output arrays
             source_key = (
                 ev['mag_id'],
                 ev['phase_id'],
+                ev.get('time_shape_id', 0),
                 float(ev['amplitude']),
                 float(ev['phase']),
-                use,
+                pulse_type,
             )
 
             if source_key not in waveform_cache:
                 waveform_id = len(unique_waveforms)
                 waveform_cache[source_key] = waveform_id
 
-                t_orig = (np.arange(n_orig, dtype=np.float64) + 0.5) * rf_raster
                 t_new  = np.linspace(t_orig[0], t_orig[-1], self._n_points)
 
                 mag_rs        = _resample_linear(mag,   t_orig, t_new)
@@ -307,7 +333,7 @@ class WaveformExtractor:
 
                 unique_waveforms.append(RFWaveform(
                     waveform_id              = waveform_id,
-                    use                      = use,
+                    pulse_type               = pulse_type,
                     n_points                 = self._n_points,
                     n_bits                   = self._n_bits,
                     waveform_raw             = waveform_hz,
@@ -317,7 +343,7 @@ class WaveformExtractor:
                     sampling_time_s          = sampling_time,
                     rf_duration_s            = rf_duration,
                     rf_amplitude_hz          = float(ev['amplitude']),
-                    rf_raster_time_s         = rf_raster,
+                    rf_raster_time_s         = rf_raster if time_shape_id == 0 else 0.0,
                     n_samples_original       = n_orig,
                 ))
             else:
@@ -331,7 +357,7 @@ class WaveformExtractor:
             timeline.append({
                 'type':        'pulse',
                 'waveform_id': waveform_id,
-                'use':         use,
+                'pulse_type':  pulse_type,
                 'duration_ms': round(rf_duration * 1e3, 6),
             })
 

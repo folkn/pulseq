@@ -11,7 +11,7 @@
   "waveforms": [
     {
       "waveform_id": 0,
-      "use": "e",
+      "pulse_type": "excitation",
       "n_points": 4096,
       "n_bits": 14,
       "max_twos_complement": 8191,
@@ -16422,7 +16422,7 @@
     {
       "type": "pulse",
       "waveform_id": 0,
-      "use": "e",
+      "pulse_type": "excitation",
       "duration_ms": 3.0
     },
     {

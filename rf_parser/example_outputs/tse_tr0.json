@@ -11,7 +11,7 @@
   "waveforms": [
     {
       "waveform_id": 0,
-      "use": "e",
+      "pulse_type": "excitation",
       "n_points": 4096,
       "n_bits": 14,
       "max_twos_complement": 8191,
@@ -16415,7 +16415,7 @@
     },
     {
       "waveform_id": 1,
-      "use": "r",
+      "pulse_type": "refocusing",
       "n_points": 4096,
       "n_bits": 14,
       "max_twos_complement": 8191,
@@ -32826,7 +32826,7 @@
     {
       "type": "pulse",
       "waveform_id": 0,
-      "use": "e",
+      "pulse_type": "excitation",
       "duration_ms": 2.5
     },
     {
@@ -32836,7 +32836,7 @@
     {
       "type": "pulse",
       "waveform_id": 1,
-      "use": "r",
+      "pulse_type": "refocusing",
       "duration_ms": 2.0
     },
     {
@@ -32846,7 +32846,7 @@
     {
       "type": "pulse",
       "waveform_id": 1,
-      "use": "r",
+      "pulse_type": "refocusing",
       "duration_ms": 2.0
     },
     {
@@ -32856,7 +32856,7 @@
     {
       "type": "pulse",
       "waveform_id": 1,
-      "use": "r",
+      "pulse_type": "refocusing",
       "duration_ms": 2.0
     },
     {
@@ -32866,7 +32866,7 @@
     {
       "type": "pulse",
       "waveform_id": 1,
-      "use": "r",
+      "pulse_type": "refocusing",
       "duration_ms": 2.0
     },
     {
@@ -32876,7 +32876,7 @@
     {
       "type": "pulse",
       "waveform_id": 1,
-      "use": "r",
+      "pulse_type": "refocusing",
       "duration_ms": 2.0
     },
     {
@@ -32886,7 +32886,7 @@
     {
       "type": "pulse",
       "waveform_id": 1,
-      "use": "r",
+      "pulse_type": "refocusing",
       "duration_ms": 2.0
     },
     {
@@ -32896,7 +32896,7 @@
     {
       "type": "pulse",
       "waveform_id": 1,
-      "use": "r",
+      "pulse_type": "refocusing",
       "duration_ms": 2.0
     },
     {
@@ -32906,7 +32906,7 @@
     {
       "type": "pulse",
       "waveform_id": 1,
-      "use": "r",
+      "pulse_type": "refocusing",
       "duration_ms": 2.0
     },
     {
@@ -32916,7 +32916,7 @@
     {
       "type": "pulse",
       "waveform_id": 1,
-      "use": "r",
+      "pulse_type": "refocusing",
       "duration_ms": 2.0
     },
     {
@@ -32926,7 +32926,7 @@
     {
       "type": "pulse",
       "waveform_id": 1,
-      "use": "r",
+      "pulse_type": "refocusing",
       "duration_ms": 2.0
     },
     {
@@ -32936,7 +32936,7 @@
     {
       "type": "pulse",
       "waveform_id": 1,
-      "use": "r",
+      "pulse_type": "refocusing",
       "duration_ms": 2.0
     },
     {
@@ -32946,7 +32946,7 @@
     {
       "type": "pulse",
       "waveform_id": 1,
-      "use": "r",
+      "pulse_type": "refocusing",
       "duration_ms": 2.0
     },
     {
@@ -32956,7 +32956,7 @@
     {
       "type": "pulse",
       "waveform_id": 1,
-      "use": "r",
+      "pulse_type": "refocusing",
       "duration_ms": 2.0
     },
     {
@@ -32966,7 +32966,7 @@
     {
       "type": "pulse",
       "waveform_id": 1,
-      "use": "r",
+      "pulse_type": "refocusing",
       "duration_ms": 2.0
     },
     {
@@ -32976,7 +32976,7 @@
     {
       "type": "pulse",
       "waveform_id": 1,
-      "use": "r",
+      "pulse_type": "refocusing",
       "duration_ms": 2.0
     },
     {
@@ -32986,7 +32986,7 @@
     {
       "type": "pulse",
       "waveform_id": 1,
-      "use": "r",
+      "pulse_type": "refocusing",
       "duration_ms": 2.0
     },
     {
