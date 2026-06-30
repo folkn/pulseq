@@ -2,12 +2,6 @@
 
 Two related formats are produced by this toolchain:
 
-| Format | Produced by | `timeline` type |
-|---|---|---|
-| **Single-channel** | `rf_waveform_parser.py` (GRE) or the TSE generator | Array of events |
-| **Multi-channel** | `multichannel_json_parser.py` | Object keyed `"0"`…`"N-1"` |
-
-Both formats share the same top-level scalar fields and `waveforms` array.
 
 ---
 
