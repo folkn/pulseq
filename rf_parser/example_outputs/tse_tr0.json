@@ -2,6 +2,8 @@
   "seq_version": "1.5.0",
   "tr_index": 0,
   "tr_duration_s": 2.00025,
+  "initial_delay_s": 0.00035,
+  "tail_delay_s": 1.81165,
   "n_rf_pulses": 17,
   "n_unique_waveforms": 2,
   "n_points": 4096,
