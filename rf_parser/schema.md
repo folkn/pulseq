@@ -1,9 +1,6 @@
 # RF Parser JSON Schema
 
-Two related formats are produced by this toolchain:
 
-
----
 
 ## A — Top-level fields
 
