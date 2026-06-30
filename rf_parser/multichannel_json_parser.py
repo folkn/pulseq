@@ -19,8 +19,8 @@ Options
 -------
     -o / --output FILE          Write JSON to FILE  [default: stdout]
     --n-channels N              Number of output channels  [default: 8]
-    --gains  ch1:1.0,ch2:0.5   Uniform gain per channel (comma-separated key:value pairs)
-    --phases ch2:1.5708         Uniform phase (rad) per channel
+    --gains  0:1.0,1:0.5   Uniform gain per channel (comma-separated key:value pairs)
+    --phases 1:1.5708         Uniform phase (rad) per channel
 
 Python API
 ----------
@@ -103,8 +103,8 @@ def parse_multichannel(
         return [float(val)] * n_events
 
     channel_timeline: Dict[str, List[dict]] = {}
-    for idx in range(1, n_channels + 1):
-        ch = f"ch{idx}"
+    for idx in range(n_channels):
+        ch = str(idx)
         gains = _resolve(channel_gains, ch, 1.0)
         phases = _resolve(channel_phases, ch, 0.0)
 
@@ -127,7 +127,7 @@ def parse_multichannel(
 # ─────────────────────────────────────────────────────────────────────────────
 
 def _parse_channel_map(raw: Optional[str]) -> Dict[str, float]:
-    """Parse "ch1:1.0,ch2:0.5" into {"ch1": 1.0, "ch2": 0.5}."""
+    """Parse "0:1.0,1:0.5" into {"ch1": 1.0, "ch2": 0.5}."""
     if not raw:
         return {}
     result: Dict[str, float] = {}
@@ -176,12 +176,12 @@ def _build_parser() -> argparse.ArgumentParser:
     )
     p.add_argument(
         "--gains",
-        metavar="ch1:1.0,ch2:0.5,...",
+        metavar="0:1.0,1:0.5,...",
         help="Comma-separated channel:gain pairs. Unlisted channels default to 1.",
     )
     p.add_argument(
         "--phases",
-        metavar="ch1:0,ch2:1.5708,...",
+        metavar="ch1:0,1:1.5708,...",
         help="Comma-separated channel:phase(rad) pairs. Unlisted channels default to 0.",
     )
     return p
