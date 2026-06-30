@@ -1,0 +1,62 @@
+{
+  "metadata": {
+    "source": "gre_tr0",
+    "description": "Gradient-echo sequence, TR 0, 8-channel B1+ phase shim output",
+    "tr_ms": 12.0,
+    "flip_angle_deg": 10.0,
+    "n_channels": 8,
+    "shim_note": "gains reflect coil array amplitude calibration; phases implement B1+ homogenisation shim (uniform pi/4 steps)"
+  },
+  "waveforms": [
+    {
+      "id": 0,
+      "type": "sinc",
+      "n_points": 4096,
+      "duration_ms": 3.0,
+      "bandwidth_hz": 1200.0,
+      "time_bandwidth_product": 3.6
+    }
+  ],
+  "timeline": {
+    "ch1": [
+      {"type": "gap",   "duration_ms": 0.1, "gain": 1.0,  "phase": 0.0},
+      {"type": "pulse", "waveform_id": 0, "pulse_type": "excitation", "duration_ms": 3.0, "gain": 1.0,  "phase": 0.0},
+      {"type": "gap",   "duration_ms": 8.9, "gain": 1.0,  "phase": 0.0}
+    ],
+    "ch2": [
+      {"type": "gap",   "duration_ms": 0.1, "gain": 0.95, "phase": 0.7854},
+      {"type": "pulse", "waveform_id": 0, "pulse_type": "excitation", "duration_ms": 3.0, "gain": 0.95, "phase": 0.7854},
+      {"type": "gap",   "duration_ms": 8.9, "gain": 0.95, "phase": 0.7854}
+    ],
+    "ch3": [
+      {"type": "gap",   "duration_ms": 0.1, "gain": 0.88, "phase": 1.5708},
+      {"type": "pulse", "waveform_id": 0, "pulse_type": "excitation", "duration_ms": 3.0, "gain": 0.88, "phase": 1.5708},
+      {"type": "gap",   "duration_ms": 8.9, "gain": 0.88, "phase": 1.5708}
+    ],
+    "ch4": [
+      {"type": "gap",   "duration_ms": 0.1, "gain": 0.92, "phase": 2.3562},
+      {"type": "pulse", "waveform_id": 0, "pulse_type": "excitation", "duration_ms": 3.0, "gain": 0.92, "phase": 2.3562},
+      {"type": "gap",   "duration_ms": 8.9, "gain": 0.92, "phase": 2.3562}
+    ],
+    "ch5": [
+      {"type": "gap",   "duration_ms": 0.1, "gain": 0.85, "phase": 3.1416},
+      {"type": "pulse", "waveform_id": 0, "pulse_type": "excitation", "duration_ms": 3.0, "gain": 0.85, "phase": 3.1416},
+      {"type": "gap",   "duration_ms": 8.9, "gain": 0.85, "phase": 3.1416}
+    ],
+    "ch6": [
+      {"type": "gap",   "duration_ms": 0.1, "gain": 0.90, "phase": 3.9270},
+      {"type": "pulse", "waveform_id": 0, "pulse_type": "excitation", "duration_ms": 3.0, "gain": 0.90, "phase": 3.9270},
+      {"type": "gap",   "duration_ms": 8.9, "gain": 0.90, "phase": 3.9270}
+    ],
+    "ch7": [
+      {"type": "gap",   "duration_ms": 0.1, "gain": 0.78, "phase": 4.7124},
+      {"type": "pulse", "waveform_id": 0, "pulse_type": "excitation", "duration_ms": 3.0, "gain": 0.78, "phase": 4.7124},
+      {"type": "gap",   "duration_ms": 8.9, "gain": 0.78, "phase": 4.7124}
+    ],
+    "ch8": [
+      {"type": "gap",   "duration_ms": 0.1, "gain": 0.82, "phase": 5.4978},
+      {"type": "pulse", "waveform_id": 0, "pulse_type": "excitation", "duration_ms": 3.0, "gain": 0.82, "phase": 5.4978},
+      {"type": "gap",   "duration_ms": 8.9, "gain": 0.82, "phase": 5.4978}
+    ]
+  }
+}
