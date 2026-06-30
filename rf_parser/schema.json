@@ -1,0 +1,146 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$comment": "Schema for RF parser JSON output. Two formats share all top-level scalars and waveforms; they differ only in the timeline field.",
+  "$defs": {
+
+    "WaveformEntry": {
+      "type": "object",
+      "description": "One distinct RF pulse shape. Multiple timeline pulse events may reference the same waveform_id.",
+      "required": [
+        "waveform_id", "pulse_type",
+        "n_points", "n_bits", "max_twos_complement",
+        "waveform_raw", "waveform_normalized", "waveform_twos_complement", "phase_rad",
+        "sampling_time_s", "rf_duration_s", "rf_amplitude_hz",
+        "rf_raster_time_s", "n_samples_original"
+      ],
+      "properties": {
+        "waveform_id":              { "type": "integer", "minimum": 0,              "description": "0-based index; referenced by timeline pulse events." },
+        "pulse_type":               { "type": "string", "enum": ["excitation", "refocusing", "inversion"], "description": "RF pulse role." },
+        "n_points":                 { "type": "integer", "minimum": 1,              "description": "Length of every sample array in this entry (= top-level n_points)." },
+        "n_bits":                   { "type": "integer", "minimum": 1,              "description": "DAC bit depth (= top-level n_bits)." },
+        "max_twos_complement":      { "type": "integer", "minimum": 0,              "description": "2^(n_bits-1) - 1; the integer that maps to normalised amplitude 1.0." },
+        "waveform_raw":             { "type": "array",   "items": { "type": "number" },                              "description": "Magnitude at each sample in Hz; peak equals rf_amplitude_hz." },
+        "waveform_normalized":      { "type": "array",   "items": { "type": "number", "minimum": 0, "maximum": 1 }, "description": "Magnitude normalised to [0, 1]; peak = 1.0." },
+        "waveform_twos_complement": { "type": "array",   "items": { "type": "integer" },                            "description": "Signed DAC codes; peak maps to max_twos_complement." },
+        "phase_rad":                { "type": "array",   "items": { "type": "number" },                             "description": "Instantaneous phase at each sample in radians." },
+        "sampling_time_s":          { "type": "number",  "exclusiveMinimum": 0,     "description": "Duration of one output sample = rf_duration_s / n_points." },
+        "rf_duration_s":            { "type": "number",  "exclusiveMinimum": 0,     "description": "Total RF pulse duration in seconds." },
+        "rf_amplitude_hz":          { "type": "number",  "exclusiveMinimum": 0,     "description": "Peak amplitude in Hz (= maximum of waveform_raw)." },
+        "rf_raster_time_s":         { "type": "number",  "exclusiveMinimum": 0,     "description": "Native RF raster interval from the .seq file before resampling." },
+        "n_samples_original":       { "type": "integer", "minimum": 1,              "description": "Native sample count at rf_raster_time_s before resampling to n_points." }
+      }
+    },
+
+    "GapEvent": {
+      "type": "object",
+      "description": "A silent interval; no RF is transmitted.",
+      "required": ["type", "duration_ms"],
+      "properties": {
+        "type":        { "type": "string", "const": "gap",                      "description": "Discriminator." },
+        "duration_ms": { "type": "number", "exclusiveMinimum": 0,               "description": "Gap duration in milliseconds." },
+        "gain":        { "type": "number", "minimum": 0,      "default": 1,     "description": "Multi-channel: amplitude scale factor (default 1)." },
+        "phase":       { "type": "number",                    "default": 0,     "description": "Multi-channel: phase offset in radians (default 0)." }
+      },
+      "additionalProperties": false
+    },
+
+    "PulseEvent": {
+      "type": "object",
+      "description": "An RF transmission event using a waveform from the waveforms array.",
+      "required": ["type", "waveform_id", "pulse_type", "duration_ms"],
+      "properties": {
+        "type":        { "type": "string",  "const": "pulse",                   "description": "Discriminator." },
+        "waveform_id": { "type": "integer", "minimum": 0,                       "description": "References waveforms[].waveform_id." },
+        "pulse_type":  { "type": "string",  "enum": ["excitation", "refocusing", "inversion"], "description": "Informational; mirrors the referenced waveform entry." },
+        "duration_ms": { "type": "number",  "exclusiveMinimum": 0,              "description": "Pulse duration in ms (= waveforms[waveform_id].rf_duration_s * 1000)." },
+        "gain":        { "type": "number",  "minimum": 0,     "default": 1,     "description": "Multi-channel: scale applied to waveform_normalized; effective peak = gain * rf_amplitude_hz." },
+        "phase":       { "type": "number",                    "default": 0,     "description": "Multi-channel: additional phase (rad) added to phase_rad at playback time." }
+      },
+      "additionalProperties": false
+    },
+
+    "TimelineEvent": {
+      "description": "One entry in a timeline array: either a gap or a pulse, discriminated by the 'type' field.",
+      "oneOf": [
+        { "$ref": "#/$defs/GapEvent" },
+        { "$ref": "#/$defs/PulseEvent" }
+      ]
+    },
+
+    "SingleChannelSequence": {
+      "type": "object",
+      "description": "Output of rf_waveform_parser.py or the TSE generator. timeline is a flat ordered array covering the active RF window (tail gap excluded).",
+      "required": [
+        "seq_version", "tr_index", "tr_duration_s",
+        "initial_delay_s", "tail_delay_s",
+        "n_rf_pulses", "n_unique_waveforms",
+        "n_points", "n_bits",
+        "waveforms", "timeline"
+      ],
+      "properties": {
+        "seq_version":        { "type": "string",  "description": "Pulseq .seq source version, e.g. \"1.5.0\"." },
+        "tr_index":           { "type": "integer", "minimum": 0,              "description": "0-based TR index (0 = first repetition)." },
+        "tr_duration_s":      { "type": "number",  "exclusiveMinimum": 0,    "description": "Full TR period in seconds, including the tail gap." },
+        "initial_delay_s":    { "type": "number",  "minimum": 0,             "description": "Time from TR start to first RF waveform start (s); equals the first gap event duration." },
+        "tail_delay_s":       { "type": "number",  "minimum": 0,             "description": "Time from last RF waveform end to TR end (s); not a timeline event." },
+        "n_rf_pulses":        { "type": "integer", "minimum": 0,             "description": "Total RF pulse events in timeline (excitation + refocusing combined)." },
+        "n_unique_waveforms": { "type": "integer", "minimum": 1,             "description": "Number of entries in the waveforms array." },
+        "n_points":           { "type": "integer", "minimum": 1,             "description": "Resampled output length applied to every waveform, e.g. 4096." },
+        "n_bits":             { "type": "integer", "minimum": 1,             "description": "DAC bit depth; max_twos_complement = 2^(n_bits-1) - 1." },
+        "waveforms": {
+          "type": "array", "minItems": 1,
+          "items": { "$ref": "#/$defs/WaveformEntry" },
+          "description": "Distinct RF pulse shapes, indexed by waveform_id."
+        },
+        "timeline": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/TimelineEvent" },
+          "description": "Ordered events from first gap through last pulse. Tail gap is excluded (see tail_delay_s)."
+        }
+      }
+    },
+
+    "MultiChannelSequence": {
+      "type": "object",
+      "description": "Output of multichannel_json_parser.py. timeline is an object keyed by zero-based channel index strings (\"0\"…\"N-1\").",
+      "required": [
+        "seq_version", "tr_index", "tr_duration_s",
+        "initial_delay_s", "tail_delay_s",
+        "n_rf_pulses", "n_unique_waveforms",
+        "n_points", "n_bits",
+        "waveforms", "timeline"
+      ],
+      "properties": {
+        "seq_version":        { "type": "string",  "description": "Pulseq .seq source version, e.g. \"1.5.0\"." },
+        "tr_index":           { "type": "integer", "minimum": 0,           "description": "0-based TR index (0 = first repetition)." },
+        "tr_duration_s":      { "type": "number",  "exclusiveMinimum": 0, "description": "Full TR period in seconds, including the tail gap." },
+        "initial_delay_s":    { "type": "number",  "minimum": 0,          "description": "Time from TR start to first RF waveform start (s)." },
+        "tail_delay_s":       { "type": "number",  "minimum": 0,          "description": "Time from last RF waveform end to TR end (s); not a timeline event." },
+        "n_rf_pulses":        { "type": "integer", "minimum": 0,          "description": "Total RF pulse events per channel." },
+        "n_unique_waveforms": { "type": "integer", "minimum": 1,          "description": "Number of entries in the waveforms array." },
+        "n_points":           { "type": "integer", "minimum": 1,          "description": "Resampled output length applied to every waveform." },
+        "n_bits":             { "type": "integer", "minimum": 1,          "description": "DAC bit depth." },
+        "waveforms": {
+          "type": "array", "minItems": 1,
+          "items": { "$ref": "#/$defs/WaveformEntry" },
+          "description": "Distinct RF pulse shapes, indexed by waveform_id."
+        },
+        "timeline": {
+          "type": "object",
+          "description": "Keys are zero-based channel indices as strings (\"0\"…\"N-1\"). All channels have equal-length event arrays; only gain and phase differ.",
+          "additionalProperties": {
+            "type": "array",
+            "items": { "$ref": "#/$defs/TimelineEvent" }
+          }
+        }
+      }
+    }
+
+  },
+
+  "description": "RF parser sequence JSON — either single-channel or multi-channel.",
+  "anyOf": [
+    { "$ref": "#/$defs/SingleChannelSequence" },
+    { "$ref": "#/$defs/MultiChannelSequence" }
+  ]
+}

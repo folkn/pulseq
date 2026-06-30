@@ -32818,176 +32818,1926 @@
       "n_samples_original": 2000
     }
   ],
-  "timeline": [
-    {
-      "type": "gap",
-      "duration_ms": 0.35
-    },
-    {
-      "type": "pulse",
-      "waveform_id": 0,
-      "pulse_type": "excitation",
-      "duration_ms": 2.5
-    },
-    {
-      "type": "gap",
-      "duration_ms": 3.75
-    },
-    {
-      "type": "pulse",
-      "waveform_id": 1,
-      "pulse_type": "refocusing",
-      "duration_ms": 2.0
-    },
-    {
-      "type": "gap",
-      "duration_ms": 10.0
-    },
-    {
-      "type": "pulse",
-      "waveform_id": 1,
-      "pulse_type": "refocusing",
-      "duration_ms": 2.0
-    },
-    {
-      "type": "gap",
-      "duration_ms": 10.0
-    },
-    {
-      "type": "pulse",
-      "waveform_id": 1,
-      "pulse_type": "refocusing",
-      "duration_ms": 2.0
-    },
-    {
-      "type": "gap",
-      "duration_ms": 10.0
-    },
-    {
-      "type": "pulse",
-      "waveform_id": 1,
-      "pulse_type": "refocusing",
-      "duration_ms": 2.0
-    },
-    {
-      "type": "gap",
-      "duration_ms": 10.0
-    },
-    {
-      "type": "pulse",
-      "waveform_id": 1,
-      "pulse_type": "refocusing",
-      "duration_ms": 2.0
-    },
-    {
-      "type": "gap",
-      "duration_ms": 10.0
-    },
-    {
-      "type": "pulse",
-      "waveform_id": 1,
-      "pulse_type": "refocusing",
-      "duration_ms": 2.0
-    },
-    {
-      "type": "gap",
-      "duration_ms": 10.0
-    },
-    {
-      "type": "pulse",
-      "waveform_id": 1,
-      "pulse_type": "refocusing",
-      "duration_ms": 2.0
-    },
-    {
-      "type": "gap",
-      "duration_ms": 10.0
-    },
-    {
-      "type": "pulse",
-      "waveform_id": 1,
-      "pulse_type": "refocusing",
-      "duration_ms": 2.0
-    },
-    {
-      "type": "gap",
-      "duration_ms": 10.0
-    },
-    {
-      "type": "pulse",
-      "waveform_id": 1,
-      "pulse_type": "refocusing",
-      "duration_ms": 2.0
-    },
-    {
-      "type": "gap",
-      "duration_ms": 10.0
-    },
-    {
-      "type": "pulse",
-      "waveform_id": 1,
-      "pulse_type": "refocusing",
-      "duration_ms": 2.0
-    },
-    {
-      "type": "gap",
-      "duration_ms": 10.0
-    },
-    {
-      "type": "pulse",
-      "waveform_id": 1,
-      "pulse_type": "refocusing",
-      "duration_ms": 2.0
-    },
-    {
-      "type": "gap",
-      "duration_ms": 10.0
-    },
-    {
-      "type": "pulse",
-      "waveform_id": 1,
-      "pulse_type": "refocusing",
-      "duration_ms": 2.0
-    },
-    {
-      "type": "gap",
-      "duration_ms": 10.0
-    },
-    {
-      "type": "pulse",
-      "waveform_id": 1,
-      "pulse_type": "refocusing",
-      "duration_ms": 2.0
-    },
-    {
-      "type": "gap",
-      "duration_ms": 10.0
-    },
-    {
-      "type": "pulse",
-      "waveform_id": 1,
-      "pulse_type": "refocusing",
-      "duration_ms": 2.0
-    },
-    {
-      "type": "gap",
-      "duration_ms": 10.0
-    },
-    {
-      "type": "pulse",
-      "waveform_id": 1,
-      "pulse_type": "refocusing",
-      "duration_ms": 2.0
-    },
-    {
-      "type": "gap",
-      "duration_ms": 10.0
-    },
-    {
-      "type": "pulse",
-      "waveform_id": 1,
-      "pulse_type": "refocusing",
-      "duration_ms": 2.0
-    }
-  ]
+  "timeline": {
+    "0": [
+      {
+        "type": "gap",
+        "duration_ms": 0.35,
+        "gain": 1.0,
+        "phase": 0.0
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 0,
+        "pulse_type": "excitation",
+        "duration_ms": 2.5,
+        "gain": 1.0,
+        "phase": 0.0
+      },
+      {
+        "type": "gap",
+        "duration_ms": 3.75,
+        "gain": 1.0,
+        "phase": 0.0
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 1.0,
+        "phase": 0.0
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 1.0,
+        "phase": 0.0
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 1.0,
+        "phase": 0.0
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 1.0,
+        "phase": 0.0
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 1.0,
+        "phase": 0.0
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 1.0,
+        "phase": 0.0
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 1.0,
+        "phase": 0.0
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 1.0,
+        "phase": 0.0
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 1.0,
+        "phase": 0.0
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 1.0,
+        "phase": 0.0
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 1.0,
+        "phase": 0.0
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 1.0,
+        "phase": 0.0
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 1.0,
+        "phase": 0.0
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 1.0,
+        "phase": 0.0
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 1.0,
+        "phase": 0.0
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 1.0,
+        "phase": 0.0
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 1.0,
+        "phase": 0.0
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 1.0,
+        "phase": 0.0
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 1.0,
+        "phase": 0.0
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 1.0,
+        "phase": 0.0
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 1.0,
+        "phase": 0.0
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 1.0,
+        "phase": 0.0
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 1.0,
+        "phase": 0.0
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 1.0,
+        "phase": 0.0
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 1.0,
+        "phase": 0.0
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 1.0,
+        "phase": 0.0
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 1.0,
+        "phase": 0.0
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 1.0,
+        "phase": 0.0
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 1.0,
+        "phase": 0.0
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 1.0,
+        "phase": 0.0
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 1.0,
+        "phase": 0.0
+      }
+    ],
+    "1": [
+      {
+        "type": "gap",
+        "duration_ms": 0.35,
+        "gain": 0.95,
+        "phase": 0.7854
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 0,
+        "pulse_type": "excitation",
+        "duration_ms": 2.5,
+        "gain": 0.95,
+        "phase": 0.7854
+      },
+      {
+        "type": "gap",
+        "duration_ms": 3.75,
+        "gain": 0.95,
+        "phase": 0.7854
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.95,
+        "phase": 0.7854
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.95,
+        "phase": 0.7854
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.95,
+        "phase": 0.7854
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.95,
+        "phase": 0.7854
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.95,
+        "phase": 0.7854
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.95,
+        "phase": 0.7854
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.95,
+        "phase": 0.7854
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.95,
+        "phase": 0.7854
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.95,
+        "phase": 0.7854
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.95,
+        "phase": 0.7854
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.95,
+        "phase": 0.7854
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.95,
+        "phase": 0.7854
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.95,
+        "phase": 0.7854
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.95,
+        "phase": 0.7854
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.95,
+        "phase": 0.7854
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.95,
+        "phase": 0.7854
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.95,
+        "phase": 0.7854
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.95,
+        "phase": 0.7854
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.95,
+        "phase": 0.7854
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.95,
+        "phase": 0.7854
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.95,
+        "phase": 0.7854
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.95,
+        "phase": 0.7854
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.95,
+        "phase": 0.7854
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.95,
+        "phase": 0.7854
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.95,
+        "phase": 0.7854
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.95,
+        "phase": 0.7854
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.95,
+        "phase": 0.7854
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.95,
+        "phase": 0.7854
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.95,
+        "phase": 0.7854
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.95,
+        "phase": 0.7854
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.95,
+        "phase": 0.7854
+      }
+    ],
+    "2": [
+      {
+        "type": "gap",
+        "duration_ms": 0.35,
+        "gain": 0.88,
+        "phase": 1.5708
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 0,
+        "pulse_type": "excitation",
+        "duration_ms": 2.5,
+        "gain": 0.88,
+        "phase": 1.5708
+      },
+      {
+        "type": "gap",
+        "duration_ms": 3.75,
+        "gain": 0.88,
+        "phase": 1.5708
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.88,
+        "phase": 1.5708
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.88,
+        "phase": 1.5708
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.88,
+        "phase": 1.5708
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.88,
+        "phase": 1.5708
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.88,
+        "phase": 1.5708
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.88,
+        "phase": 1.5708
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.88,
+        "phase": 1.5708
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.88,
+        "phase": 1.5708
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.88,
+        "phase": 1.5708
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.88,
+        "phase": 1.5708
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.88,
+        "phase": 1.5708
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.88,
+        "phase": 1.5708
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.88,
+        "phase": 1.5708
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.88,
+        "phase": 1.5708
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.88,
+        "phase": 1.5708
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.88,
+        "phase": 1.5708
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.88,
+        "phase": 1.5708
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.88,
+        "phase": 1.5708
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.88,
+        "phase": 1.5708
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.88,
+        "phase": 1.5708
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.88,
+        "phase": 1.5708
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.88,
+        "phase": 1.5708
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.88,
+        "phase": 1.5708
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.88,
+        "phase": 1.5708
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.88,
+        "phase": 1.5708
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.88,
+        "phase": 1.5708
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.88,
+        "phase": 1.5708
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.88,
+        "phase": 1.5708
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.88,
+        "phase": 1.5708
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.88,
+        "phase": 1.5708
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.88,
+        "phase": 1.5708
+      }
+    ],
+    "3": [
+      {
+        "type": "gap",
+        "duration_ms": 0.35,
+        "gain": 0.92,
+        "phase": 2.3562
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 0,
+        "pulse_type": "excitation",
+        "duration_ms": 2.5,
+        "gain": 0.92,
+        "phase": 2.3562
+      },
+      {
+        "type": "gap",
+        "duration_ms": 3.75,
+        "gain": 0.92,
+        "phase": 2.3562
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.92,
+        "phase": 2.3562
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.92,
+        "phase": 2.3562
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.92,
+        "phase": 2.3562
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.92,
+        "phase": 2.3562
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.92,
+        "phase": 2.3562
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.92,
+        "phase": 2.3562
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.92,
+        "phase": 2.3562
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.92,
+        "phase": 2.3562
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.92,
+        "phase": 2.3562
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.92,
+        "phase": 2.3562
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.92,
+        "phase": 2.3562
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.92,
+        "phase": 2.3562
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.92,
+        "phase": 2.3562
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.92,
+        "phase": 2.3562
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.92,
+        "phase": 2.3562
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.92,
+        "phase": 2.3562
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.92,
+        "phase": 2.3562
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.92,
+        "phase": 2.3562
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.92,
+        "phase": 2.3562
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.92,
+        "phase": 2.3562
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.92,
+        "phase": 2.3562
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.92,
+        "phase": 2.3562
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.92,
+        "phase": 2.3562
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.92,
+        "phase": 2.3562
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.92,
+        "phase": 2.3562
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.92,
+        "phase": 2.3562
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.92,
+        "phase": 2.3562
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.92,
+        "phase": 2.3562
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.92,
+        "phase": 2.3562
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.92,
+        "phase": 2.3562
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.92,
+        "phase": 2.3562
+      }
+    ],
+    "4": [
+      {
+        "type": "gap",
+        "duration_ms": 0.35,
+        "gain": 0.85,
+        "phase": 3.1416
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 0,
+        "pulse_type": "excitation",
+        "duration_ms": 2.5,
+        "gain": 0.85,
+        "phase": 3.1416
+      },
+      {
+        "type": "gap",
+        "duration_ms": 3.75,
+        "gain": 0.85,
+        "phase": 3.1416
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.85,
+        "phase": 3.1416
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.85,
+        "phase": 3.1416
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.85,
+        "phase": 3.1416
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.85,
+        "phase": 3.1416
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.85,
+        "phase": 3.1416
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.85,
+        "phase": 3.1416
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.85,
+        "phase": 3.1416
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.85,
+        "phase": 3.1416
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.85,
+        "phase": 3.1416
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.85,
+        "phase": 3.1416
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.85,
+        "phase": 3.1416
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.85,
+        "phase": 3.1416
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.85,
+        "phase": 3.1416
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.85,
+        "phase": 3.1416
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.85,
+        "phase": 3.1416
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.85,
+        "phase": 3.1416
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.85,
+        "phase": 3.1416
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.85,
+        "phase": 3.1416
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.85,
+        "phase": 3.1416
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.85,
+        "phase": 3.1416
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.85,
+        "phase": 3.1416
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.85,
+        "phase": 3.1416
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.85,
+        "phase": 3.1416
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.85,
+        "phase": 3.1416
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.85,
+        "phase": 3.1416
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.85,
+        "phase": 3.1416
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.85,
+        "phase": 3.1416
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.85,
+        "phase": 3.1416
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.85,
+        "phase": 3.1416
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.85,
+        "phase": 3.1416
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.85,
+        "phase": 3.1416
+      }
+    ],
+    "5": [
+      {
+        "type": "gap",
+        "duration_ms": 0.35,
+        "gain": 0.9,
+        "phase": 3.927
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 0,
+        "pulse_type": "excitation",
+        "duration_ms": 2.5,
+        "gain": 0.9,
+        "phase": 3.927
+      },
+      {
+        "type": "gap",
+        "duration_ms": 3.75,
+        "gain": 0.9,
+        "phase": 3.927
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.9,
+        "phase": 3.927
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.9,
+        "phase": 3.927
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.9,
+        "phase": 3.927
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.9,
+        "phase": 3.927
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.9,
+        "phase": 3.927
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.9,
+        "phase": 3.927
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.9,
+        "phase": 3.927
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.9,
+        "phase": 3.927
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.9,
+        "phase": 3.927
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.9,
+        "phase": 3.927
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.9,
+        "phase": 3.927
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.9,
+        "phase": 3.927
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.9,
+        "phase": 3.927
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.9,
+        "phase": 3.927
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.9,
+        "phase": 3.927
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.9,
+        "phase": 3.927
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.9,
+        "phase": 3.927
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.9,
+        "phase": 3.927
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.9,
+        "phase": 3.927
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.9,
+        "phase": 3.927
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.9,
+        "phase": 3.927
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.9,
+        "phase": 3.927
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.9,
+        "phase": 3.927
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.9,
+        "phase": 3.927
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.9,
+        "phase": 3.927
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.9,
+        "phase": 3.927
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.9,
+        "phase": 3.927
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.9,
+        "phase": 3.927
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.9,
+        "phase": 3.927
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.9,
+        "phase": 3.927
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.9,
+        "phase": 3.927
+      }
+    ],
+    "6": [
+      {
+        "type": "gap",
+        "duration_ms": 0.35,
+        "gain": 0.78,
+        "phase": 4.7124
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 0,
+        "pulse_type": "excitation",
+        "duration_ms": 2.5,
+        "gain": 0.78,
+        "phase": 4.7124
+      },
+      {
+        "type": "gap",
+        "duration_ms": 3.75,
+        "gain": 0.78,
+        "phase": 4.7124
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.78,
+        "phase": 4.7124
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.78,
+        "phase": 4.7124
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.78,
+        "phase": 4.7124
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.78,
+        "phase": 4.7124
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.78,
+        "phase": 4.7124
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.78,
+        "phase": 4.7124
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.78,
+        "phase": 4.7124
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.78,
+        "phase": 4.7124
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.78,
+        "phase": 4.7124
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.78,
+        "phase": 4.7124
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.78,
+        "phase": 4.7124
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.78,
+        "phase": 4.7124
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.78,
+        "phase": 4.7124
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.78,
+        "phase": 4.7124
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.78,
+        "phase": 4.7124
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.78,
+        "phase": 4.7124
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.78,
+        "phase": 4.7124
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.78,
+        "phase": 4.7124
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.78,
+        "phase": 4.7124
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.78,
+        "phase": 4.7124
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.78,
+        "phase": 4.7124
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.78,
+        "phase": 4.7124
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.78,
+        "phase": 4.7124
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.78,
+        "phase": 4.7124
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.78,
+        "phase": 4.7124
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.78,
+        "phase": 4.7124
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.78,
+        "phase": 4.7124
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.78,
+        "phase": 4.7124
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.78,
+        "phase": 4.7124
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.78,
+        "phase": 4.7124
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.78,
+        "phase": 4.7124
+      }
+    ],
+    "7": [
+      {
+        "type": "gap",
+        "duration_ms": 0.35,
+        "gain": 0.82,
+        "phase": 5.4978
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 0,
+        "pulse_type": "excitation",
+        "duration_ms": 2.5,
+        "gain": 0.82,
+        "phase": 5.4978
+      },
+      {
+        "type": "gap",
+        "duration_ms": 3.75,
+        "gain": 0.82,
+        "phase": 5.4978
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.82,
+        "phase": 5.4978
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.82,
+        "phase": 5.4978
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.82,
+        "phase": 5.4978
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.82,
+        "phase": 5.4978
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.82,
+        "phase": 5.4978
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.82,
+        "phase": 5.4978
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.82,
+        "phase": 5.4978
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.82,
+        "phase": 5.4978
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.82,
+        "phase": 5.4978
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.82,
+        "phase": 5.4978
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.82,
+        "phase": 5.4978
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.82,
+        "phase": 5.4978
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.82,
+        "phase": 5.4978
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.82,
+        "phase": 5.4978
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.82,
+        "phase": 5.4978
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.82,
+        "phase": 5.4978
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.82,
+        "phase": 5.4978
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.82,
+        "phase": 5.4978
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.82,
+        "phase": 5.4978
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.82,
+        "phase": 5.4978
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.82,
+        "phase": 5.4978
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.82,
+        "phase": 5.4978
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.82,
+        "phase": 5.4978
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.82,
+        "phase": 5.4978
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.82,
+        "phase": 5.4978
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.82,
+        "phase": 5.4978
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.82,
+        "phase": 5.4978
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.82,
+        "phase": 5.4978
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.82,
+        "phase": 5.4978
+      },
+      {
+        "type": "gap",
+        "duration_ms": 10.0,
+        "gain": 0.82,
+        "phase": 5.4978
+      },
+      {
+        "type": "pulse",
+        "waveform_id": 1,
+        "pulse_type": "refocusing",
+        "duration_ms": 2.0,
+        "gain": 0.82,
+        "phase": 5.4978
+      }
+    ]
+  }
 }
